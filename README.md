@@ -1,51 +1,66 @@
-Hello and welcome, dear developer!
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-This repository is a playground for your submission which should use PHP and HTML/CSS.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-Before you get started, be sure to click the `Use this template` button to create a new repository where you will commit and push your code regularly. Once completed, send us the link to your repository.
+## About Laravel
 
-Good luck, and have fun ☘️
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-# Task Overview
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Your primary objective is to build a web service that receives a `username` and `password` via a GET request. Upon successful authentication and data retrieval, it should generate a PDF document from dynamically created HTML, using `wkhtmltopdf` to perform the HTML-to-PDF conversion.  The PDF should contain task data fetched from an API.
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Requirements
+## Learning Laravel
 
-1.  **Docker Environment Setup:**
-    *   Create a `Dockerfile` to containerize your PHP application.
-    *   Ensure your Dockerfile includes the installation of `wkhtmltopdf`. This tool is essential for converting HTML to PDF within your Docker container.
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-2.  **GET Request Handling & API Interaction:**
-    *   Implement a PHP script that accepts `username` and `password` as **query parameters** in a GET request (e.g., `/service.php?username=your_username&password=your_password`).
-    *   **Authentication & Authorization:**
-        *   Use the provided `username` and `password` to obtain an authorization token from our API. Refer to the "Authorization" section below for detailed instructions.
-        *   Once you have the access token, use it to make an authorized GET request to `https://api.baubuddy.de/dev/index.php/v1/tasks/select` to download task data in JSON format.
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-3.  **HTML Generation & Data Display:**
-    *   Dynamically generate HTML to present the downloaded task data.
-    *   Display the following fields for each task: `task`, `title`, `description`, and `colorCode`.
-    *   Visually represent the `colorCode`.  For example, you could use a colored box, background, or text to reflect the `colorCode` associated with each task.
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-4.  **PDF Generation and Download:**
-    *   Utilize `wkhtmltopdf` within your PHP application to convert the dynamically generated HTML into a PDF document.
-    *   Configure your PHP script to send the generated PDF as a downloadable response to the client's browser.  The user should be prompted to save the PDF file.
+## Laravel Sponsors
 
-# Authorization
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-It is mandatory that your requests to the API are authorized. You can find the required request below:
+### Premium Partners
 
-This is how it looks in `curl`:
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
 
-```bash
-curl --request POST \
-  --url https://api.baubuddy.de/index.php/login \
-  --header 'Authorization: Basic QVBJX0V4cGxvcmVyOjEyMzQ1NmlzQUxhbWVQYXNz' \
-  --header 'Content-Type: application/json' \
-  --data '{
-        "username":"365",
-        "password":"1"
-}'
-```
+## Contributing
 
-The response will contain a JSON object, having the access token in `json["oauth"]["access_token"]`. For all subsequent calls this has to be added to the request headers as `Authorization: Bearer {access_token}`.
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
