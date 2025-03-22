@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
+    xfonts-75dpi \
+    xfonts-base \
+    wkhtmltopdf \
     && docker-php-ext-configure gd \
     && docker-php-ext-install gd mbstring pdo pdo_mysql xml
 
