@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'baubuddy' => [
+        'api_url' => env('BAUBUDDY_API_URL'),
+        'api_login_url' => env('BAUBUDDY_API_LOGIN_URL'),
+        'api_authorization' => env('BAUBUDDY_API_AUTHORIZATION'),
+        'api_username' => env('BAUBUDDY_API_USERNAME'),
+        'api_password' => env('BAUBUDDY_API_PASSWORD'),
+    ],
+
 ];
