@@ -1,66 +1,162 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel HTML to PDF Service
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web service that authenticates users, fetches task data from an external API, dynamically generates HTML, and converts it to a PDF using `wkhtmltopdf`. The project is containerized with Docker for easy deployment.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **User Authentication:**
+    - Accepts `username` and `password` via a GET request.
+    - Retrieves an authentication token from the external API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Task Data Fetching:**
+    - Uses the access token to request task data from `https://api.baubuddy.de/dev/index.php/v1/tasks/select`.
 
-## Learning Laravel
+- **HTML Generation & Data Presentation:**
+    - Dynamically generates an HTML document from the API response.
+    - Displays task details including `task`, `title`, `description`, and `colorCode`.
+    - Uses `colorCode` visually (background color of the task section).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **PDF Generation & Download:**
+    - Uses `wkhtmltopdf` to convert the generated HTML into a PDF.
+    - The PDF is returned as a downloadable response.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Dockerized Setup:**
+    - Contains a `Dockerfile` and `docker-compose.yml` for easy deployment.
+    - Includes Nginx, PHP, and MySQL services.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Technologies Used
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Backend:** Laravel 10 (PHP 8.2)
+- **PDF Generation:** wkhtmltopdf
+- **Authentication:** API Token Authentication
+- **Database:** MySQL 8.0 (if needed for future extensions)
+- **Containerization:** Docker, Docker Compose
+- **Web Server:** Nginx
+- **Service Layer:** Baubuddy API Integration
+- **Templating:** Blade Templates
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Project Architecture
 
-## Contributing
+The project follows a structured architecture with a service layer handling API interaction.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Controller:** `PdfController.php` (Handles request processing and PDF generation)
+- **Service:** `BaubuddyApiService.php` (Handles API authentication and data fetching)
+- **View:** `tasks.blade.php` (Generates HTML for PDF conversion)
+- **Configuration:** `config/services.php` and `config/snappy.php`
+- **Routing:** `web.php`
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Installation & Setup
 
-## Security Vulnerabilities
+### Prerequisites
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Docker & Docker Compose installed on your system
+- Git
 
-## License
+### Step 1: Clone the Repository
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+git clone https://github.com/fvarli/laravel-html-to-pdf.git
+cd laravel-html-to-pdf
+```
+
+### Step 2: Set Up Environment Variables
+
+Copy the `.env.example` file to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Modify the following environment variables:
+
+```bash
+BAUBUDDY_API_URL=url
+BAUBUDDY_API_LOGIN_URL=login_url
+BAUBUDDY_API_AUTHORIZATION=authorization
+BAUBUDDY_API_USERNAME=username
+BAUBUDDY_API_PASSWORD=password
+WKHTMLTOPDF_BINARY=/usr/bin/wkhtmltopdf
+```
+
+### Step 3: Build and Run Containers
+
+```bash
+docker-compose up -d --build
+```
+
+This will start:
+- Laravel application (`app` container)
+- MySQL database (`db` container)
+- Nginx web server (`webserver` container)
+
+### Step 4: Install Dependencies & Migrate Database
+
+```bash
+docker-compose exec app composer install
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate --seed (if needed for future extensions)
+```
+
+### Step 5: Access the API
+
+You can access the application at:
+- `http://localhost:8001/`
+- Generate PDF: `http://localhost:8001/generate-pdf`
+
+---
+
+## API Endpoints
+
+### Generate PDF
+
+**Request:**
+```bash
+GET /generate-pdf
+```
+
+**Response:**
+- A downloadable PDF file containing task details.
+
+---
+
+## Docker Configuration
+
+### Docker Compose Setup (`docker-compose.yml`)
+
+The setup includes three services:
+
+- **`app` (Laravel Application)**: PHP 8.2 + wkhtmltopdf
+- **`db` (MySQL Database)**: Stores data if needed
+- **`webserver` (Nginx)**: Routes requests to Laravel
+
+---
+
+### Screenshots
+
+Both Postman Collection and Environment files are available in the `resources/docs/postman` directory.
+
+![Fetching Data](resources/files/fetching_data.png)
+![Showing Data on Screen](resources/files/showing_data_on_screen.png)
+![Downloaded PDF File](resources/files/downloaded_pdf_file.png)
+
+---
+
+### PDF File
+
+📄 [Downloaded PDF File](resources/files/tasks.pdf)
+
+---
+
+## Contact
+
+- Website: [www.ferzendervarli.com](https://www.ferzendervarli.com/)
+- GitHub: [github.com/fvarli](https://github.com/fvarli)
+- LinkedIn: [linkedin.com/in/fvarli](https://www.linkedin.com/in/fvarli)
